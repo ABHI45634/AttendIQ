@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AttendIQ – College Attendance Simulator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Attend<span>IQ</span></h1>
+      <p class="sub">Your attendance, under control.</p>
+    </div>
+    <div class="actions">
+      <button class="btn ghost" id="themeBtn" type="button" aria-label="Switch to light theme">Light mode</button>
+      <button class="btn ghost" id="resetAllBtn" type="button">Reset</button>
+    </div>
+  </header>
+
+  <main class="grid">
+    <!-- Current attendance -->
+    <section class="card" aria-labelledby="curH">
+      <h2 id="curH">Current attendance</h2>
+      <div class="big"><span id="curPct">0</span><small>%</small></div>
+      <p class="muted" id="curCount">0 of 0 lectures attended</p>
+      <div class="bar" role="img" id="curBarA11y" aria-label="Current attendance">
+        <i id="curBar"></i><b class="tick" id="curTick" title="Target"></b>
+      </div>
+      <div class="chips">
+        <span class="chip" id="chipMissed">0 missed</span>
+        <span class="chip" id="chipTarget">Target 75%</span>
+      </div>
+
+      <div class="fields">
+        <label>Lectures conducted<input type="number" id="total" min="0" step="1" inputmode="numeric"></label>
+        <label>Lectures attended<input type="number" id="attended" min="0" step="1" inputmode="numeric"></label>
+        <label>Target %<input type="number" id="target" min="0" max="100" step="1" inputmode="decimal"></label>
+      </div>
+      <p class="error" id="err" role="alert" aria-live="polite"></p>
+    </section>
+
+    <!-- Simulator -->
+    <section class="card" aria-labelledby="simH">
+      <div class="row-between">
+        <h2 id="simH">Simulator</h2>
+        <button class="btn ghost small" id="resetSimBtn" type="button">Reset simulator</button>
+      </div>
+
+      <div class="sim-top">
+        <div class="gauge">
+          <svg viewBox="0 0 200 200" aria-hidden="true">
+            <circle class="track" cx="100" cy="100" r="88"/>
+            <circle class="track" cx="100" cy="100" r="68"/>
+            <circle class="arc cur" id="ringCur" cx="100" cy="100" r="88"/>
+            <circle class="arc proj" id="ringProj" cx="100" cy="100" r="68"/>
+          </svg>
+          <div class="gauge-c"><span id="projPct">0</span><small>%</small><em>projected</em></div>
+        </div>
+        <div class="proj-info">
+          <p class="muted" id="projCount">0 of 0 lectures</p>
+          <p class="delta" id="delta">0.00 pts</p>
+          <ul class="legend">
+            <li><i class="dot cur"></i>Now <b id="legCur">0%</b></li>
+            <li><i class="dot proj"></i>Projected <b id="legProj">0%</b></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ctrl">
+        <label for="attendNum">Attend upcoming lectures</label>
+        <div class="pair">
+          <input type="range" id="attendRange" min="0" max="50" value="0" aria-label="Lectures to attend (slider)">
+          <input type="number" id="attendNum" min="0" max="999" value="0" inputmode="numeric">
+        </div>
+      </div>
+      <div class="ctrl skip">
+        <label for="skipNum">Skip upcoming lectures</label>
+        <div class="pair">
+          <input type="range" id="skipRange" min="0" max="50" value="0" aria-label="Lectures to skip (slider)">
+          <input type="number" id="skipNum" min="0" max="999" value="0" inputmode="numeric">
+        </div>
+      </div>
+
+      <div class="cmp" aria-hidden="true">
+        <div class="bar"><i id="cmpCur"></i><b class="tick" id="cmpTick1"></b></div>
+        <div class="bar proj"><i id="cmpProj"></i><b class="tick" id="cmpTick2"></b></div>
+      </div>
+    </section>
+
+    <!-- Insights -->
+    <section class="card wide" aria-labelledby="insH">
+      <h2 id="insH">Smart insights</h2>
+      <ul class="insights" id="insights" aria-live="polite"></ul>
+    </section>
+  </main>
+
+  <details class="card help">
+    <summary>How does this work?</summary>
+    <p>Enter the lectures held so far and how many you attended. Then choose how many upcoming lectures you'll attend or skip. Projected attendance = (attended + upcoming attended) ÷ (conducted + upcoming attended + upcoming skipped) × 100. Insights use the same rule: the skip limit is the most lectures you can miss in a row while staying at or above your target, and the attend count is the fewest you must attend in a row to reach it.</p>
+  </details>
+
+  <footer>
+    <span><b>AttendIQ</b> · runs in your browser, saves to this device only.</span>
+    <button class="link" id="clearBtn" type="button">Clear saved data</button>
+  </footer>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
